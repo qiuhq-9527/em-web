@@ -1,0 +1,11 @@
+# 为所有页面设置基本缓存控制
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# 为静态资源设置长期缓存
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 为GIF动画设置一周缓存
+/animations/*.gif
+  Cache-Control: public, max-age=604800 
