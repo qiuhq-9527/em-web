@@ -4,15 +4,19 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-// 跳转到Documents页面
-const navigateToDocuments = () => {
-  router.push('/documents');
+// 处理按钮点击事件
+const handleButtonClick = () => {
+  
+  // 延迟后跳转到Documents页面
+  setTimeout(() => {
+    router.push('/documents');
+  }, 500);
 };
 </script>
 
 <template>
     <!-- 跳转按钮 -->
-    <button class="codecard-jump-button" @click="navigateToDocuments">
+    <button class="codecard-jump-button" @click="handleButtonClick">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256"
             class="animate-pulse icon" title="元素魔法">
             <path

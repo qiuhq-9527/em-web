@@ -8,7 +8,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   plugins: [
     vue(),
-    vueDevTools(),
+    // vueDevTools(),
   ],
   resolve: {
     alias: {
@@ -31,6 +31,8 @@ export default defineConfig({
     },
   },
   server: {
+    port: 5250,
+    host: '0.0.0.0',
     headers: {
       'Cache-Control': 'public, max-age=31536000',
       'X-Content-Type-Options': 'nosniff',

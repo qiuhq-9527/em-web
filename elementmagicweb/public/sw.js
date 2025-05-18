@@ -1,14 +1,16 @@
 // Service Worker版本，用于更新缓存
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v3'; // 更新缓存版本，强制刷新
 const CACHE_NAME = `elementmagic-${CACHE_VERSION}`;
 
-// 需要缓存的资源列表
+// 需要缓存的资源列表 - 缓存动态图和视频
 const CACHE_URLS = [
-  '/',
-  '/index.html',
   '/animations/elementmagic-1.gif',
   '/animations/elementmagic-2.gif',
-  '/animations/elementmagic-3.gif'
+  '/animations/elementmagic-3.gif',
+  '/videos/step1.mp4',
+  '/videos/step2.mp4',
+  '/videos/step3.mp4',
+  '/videos/step4.mp4'
 ];
 
 // 安装Service Worker
@@ -54,13 +56,28 @@ self.addEventListener('fetch', (event) => {
   // 获取请求URL
   const url = new URL(event.request.url);
   
-  // 特殊处理GIF文件
-  if (url.pathname.endsWith('.gif') && url.pathname.includes('/animations/')) {
+  // 检查是否是开发环境的请求 (localhost:5277 或 HMR相关请求)
+  const isDev = url.hostname === 'localhost' && 
+                (url.port === '5277' || url.port === '5173') && 
+                (url.pathname.includes('__vite') || 
+                 url.pathname.includes('@vite') || 
+                 url.pathname.includes('node_modules') ||
+                 url.pathname.includes('.hot-update.') ||
+                 url.search.includes('t='));
+  
+  // 如果是开发环境的请求，直接从网络获取，不缓存
+  if (isDev) {
+    return;
+  }
+  
+  // 对动态图片和视频进行缓存处理
+  if ((url.pathname.endsWith('.gif') && url.pathname.includes('/animations/')) || 
+      (url.pathname.endsWith('.mp4') && url.pathname.includes('/videos/'))) {
     event.respondWith(
       caches.match(event.request).then((response) => {
         // 如果缓存中有响应，直接返回
         if (response) {
-          console.log('Service Worker: 从缓存返回GIF', url.pathname);
+          console.log('Service Worker: 从缓存返回资源', url.pathname);
           return response;
         }
         
@@ -76,7 +93,7 @@ self.addEventListener('fetch', (event) => {
           
           // 将响应添加到缓存
           caches.open(CACHE_NAME).then((cache) => {
-            console.log('Service Worker: 缓存GIF', url.pathname);
+            console.log('Service Worker: 缓存资源', url.pathname);
             cache.put(event.request, responseToCache);
           });
           
@@ -85,13 +102,7 @@ self.addEventListener('fetch', (event) => {
       })
     );
   } else {
-    // 对于其他资源，使用网络优先策略
-    event.respondWith(
-      fetch(event.request)
-        .catch(() => {
-          // 如果网络请求失败，尝试从缓存获取
-          return caches.match(event.request);
-        })
-    );
+    // 对于其他资源，直接从网络获取，不使用缓存
+    return;
   }
 }); 

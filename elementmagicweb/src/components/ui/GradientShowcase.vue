@@ -41,11 +41,11 @@ if (typeof mediaSrc !== 'undefined' && mediaSrc) {
 <template>
   <div class="showcase-wrapper">
     <!-- 内容区域 - 移到渐变背景上方 -->
-    <div v-if="content" class="content-area text-center mb-4">
+    <div v-if="content" class="content-area text-center mb-3 sm:mb-4">
       <div v-html="content"></div>
     </div>
     
-    <div class="showcase-container rounded-3xl overflow-hidden">
+    <div class="showcase-container rounded-2xl sm:rounded-3xl overflow-hidden">
       <div class="gradient-bg w-full h-full relative flex items-center justify-center">
         <!-- 媒体展示区域 -->
         <div class="media-container absolute bottom-0 left-0 right-0 flex justify-center">
@@ -81,14 +81,15 @@ if (typeof mediaSrc !== 'undefined' && mediaSrc) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
 }
 
 .showcase-container {
   width: 100%;
   /* 1300:670 比例 */
   aspect-ratio: 1300 / 670;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(110, 110, 110, 0.1);
   position: relative;
 }
 
@@ -101,7 +102,7 @@ if (typeof mediaSrc !== 'undefined' && mediaSrc) {
     linear-gradient(135deg, #0d1423 0%, #1e293b 30%, #334155 100%);
   position: relative;
   overflow: hidden;
-  border-radius: 1.5rem; /* 3xl */
+  border-radius: 1rem;
 }
 
 /* 添加噪点效果 */
@@ -139,8 +140,8 @@ if (typeof mediaSrc !== 'undefined' && mediaSrc) {
 
 /* 内容区域样式 - 移到渐变背景上方 */
 .content-area {
-  max-width: 80%;
-  padding: 1rem 0;
+  max-width: 90%;
+  padding: 0.5rem 0 1rem;
 }
 
 .content-area h2 {
@@ -157,7 +158,7 @@ if (typeof mediaSrc !== 'undefined' && mediaSrc) {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 1.5rem; /* 3xl */
+  border-radius: 1rem;
   padding: 2px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
   -webkit-mask: 
@@ -177,12 +178,14 @@ if (typeof mediaSrc !== 'undefined' && mediaSrc) {
     aspect-ratio: 1300 / 800; /* 移动端稍微调整比例 */
   }
   
-  .content-area h2 {
-    font-size: 1.5rem;
+  .content-area {
+    max-width: 100%;
   }
-  
-  .content-area p {
-    font-size: 0.875rem;
+}
+
+@media (max-width: 480px) {
+  .showcase-container {
+    aspect-ratio: 1300 / 900; /* 更小屏幕进一步调整比例 */
   }
 }
 </style> 

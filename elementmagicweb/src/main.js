@@ -6,8 +6,8 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-// 注册Service Worker
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+// 注册Service Worker - 仅在生产环境
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then(registration => {
@@ -16,6 +16,14 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       .catch(error => {
         console.error('Service Worker 注册失败:', error);
       });
+  });
+} else if ('serviceWorker' in navigator) {
+  // 在开发环境中，卸载所有已注册的Service Worker
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    for (let registration of registrations) {
+      registration.unregister();
+      console.log('Service Worker 已卸载（开发环境）');
+    }
   });
 }
 

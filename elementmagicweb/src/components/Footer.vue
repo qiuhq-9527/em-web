@@ -2,6 +2,12 @@
 import LogoIcon from '@/components/icon/LogoIcon.vue';
 import Weixin from '@/components/icon/WeixinIcon.vue';
 import Github from '@/components/icon/GithubIcon.vue';
+import { downloadExtension } from '@/utils/download.js';
+
+// 处理下载扩展按钮点击事件
+const handleDownload = () => {
+  downloadExtension();
+};
 </script>
 
 <template>
@@ -11,14 +17,10 @@ import Github from '@/components/icon/GithubIcon.vue';
       <div class="flex flex-col md:flex-row justify-between items-start mb-12">
         <!-- 左侧区域 -->
         <div class="mb-8 md:mb-0">
-          <h2 class="text-3rem md:text-[5rem] font-bold text-gray-700 mb-6">Try ElementMagic Now</h2>
+          <h2 class="text-[2rem] md:text-[5rem] font-bold text-gray-700 mb-6">Try ElementMagic Now</h2>
           <button
-            class="border border-gray-300 rounded-full font-medium flex items-center gap-2 px-6 py-3">
-            <span class="inline-block w-5 h-5">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-              </svg>
-            </span>
+            class="hidden md:flex border border-gray-300 rounded-full font-medium items-center gap-2 px-6 py-3"
+            @click="handleDownload">
             下载扩展
           </button>
         </div>
@@ -54,7 +56,7 @@ import Github from '@/components/icon/GithubIcon.vue';
           <p class="text-gray-600 text-sm">个人微信</p>
         </div> -->
         <div class="flex flex-col items-center justify-center h-full">
-          <p class="mt-4 text-gray-500 font-thin ">谢谢你的关注，但产品仍在测试中暂未开始运营</p>
+          <p class="mt-4 text-gray-500 font-thin ">谢谢你的关注，但产品仍在开发与测试中，暂未开始运营</p>
         </div>
       </div>
       <div class="modal-action mt-6">
